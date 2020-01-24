@@ -1,5 +1,4 @@
 package com.example.enablebluetooth;
-
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -20,7 +19,6 @@ import java.util.UUID;
 
 public class BluetoothConnectionService {
     private static final String TAG = "BluetoothConnectionServ";
-
     private static final String appName = "MYAPP";
 
     private static final UUID MY_UUID_INSECURE =
@@ -134,7 +132,6 @@ public class BluetoothConnectionService {
             } catch (IOException e) {
                 Log.e(TAG, "ConnectThread: Could not create InsecureRfcommSocket " + e.getMessage());
             }
-
             mmSocket = tmp;
 
             // Always cancel discovery because it will slow down a connection
@@ -153,6 +150,7 @@ public class BluetoothConnectionService {
                 try {
                     mmSocket.close();
                     Log.d(TAG, "run: Closed Socket.");
+                    /******************************/
                 } catch (IOException e1) {
                     Log.e(TAG, "mConnectThread: run: Unable to close connection in socket " + e1.getMessage());
                 }
@@ -186,6 +184,7 @@ public class BluetoothConnectionService {
             mConnectThread.cancel();
             mConnectThread = null;
         }
+
         if (mInsecureAcceptThread == null) {
             mInsecureAcceptThread = new AcceptThread();
             mInsecureAcceptThread.start();
@@ -254,10 +253,13 @@ public class BluetoothConnectionService {
                 try {
                     bytes = mmInStream.read(buffer);
                     String incomingMessage = new String(buffer, 0, bytes);
+                    /************/
                     Log.d(TAG, "InputStream: " + incomingMessage);
-                } catch (IOException e) {
-                    Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
+
                     break;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage());
                 }
             }
         }
@@ -306,8 +308,3 @@ public class BluetoothConnectionService {
     }
 
 }
-
-
-
-
-
